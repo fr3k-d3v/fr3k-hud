@@ -65,11 +65,9 @@ class HermesProvider(
                 AgentAskResponse(text = text)
             },
             onFailure = { error ->
-                // V1 fallback: the offline envelope knows we are reachable in spirit
-                AgentAskResponse(
-                    text = "Hermes unreachable (${error.message ?: "offline"}). " +
-                        "Saved locally as '${request.prompt.take(60)}' — will retry.",
-                )
+                // Do not invent an offline queue or imply retry. The transport returned
+                // a failure, so callers must see a failed request, not successful text.
+                throw java.io.IOException("Hermes request failed", error)
             },
         )
     }
