@@ -34,7 +34,14 @@ class HermesAskCommand(
             context = context.asAgentContext(),
             profile = com.mcpintelligence.fr3k.protocol.AgentProfile.NORMAL,
         )
-        val response = provider().ask(request)
+        val response = try {
+            provider().ask(request)
+        } catch (e: kotlinx.coroutines.CancellationException) {
+            throw e
+        } catch (_: Exception) {
+            // No fabricated answer or persisted-retry claim on transport failure.
+            return CommandResult.Failed("Hermes request failed or endpoint unavailable")
+        }
         return CommandResult.Ok(
             message = response.text,
             data = mapOf("format" to response.format.name),
