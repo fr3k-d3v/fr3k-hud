@@ -162,7 +162,9 @@ class TermuxBridge(private val context: Context) {
     fun runJob(name: String, args: Map<String, String>): Result {
         val builder = jobRegistry[name]
             ?: return Result("", "unknown job: $name", 2)
-        val cmd = builder(args)
+        val cmd = try { builder(args) } catch (_: IllegalArgumentException) {
+            return Result("", "invalid arguments for named job: $name", 2)
+        }
         return runBlocking(cmd, timeoutMs = 15000)
     }
 
@@ -284,32 +286,36 @@ class TermuxBridge(private val context: Context) {
     }
 
     private fun registerDefaultJobs() {
+        // The named jobs accept data, never untrusted shell fragments.
+        // Raw arbitrary execution is deliberately not exposed as a named job.
         jobRegistry["git.clone"] = { args ->
-            val url = args["url"] ?: throw IllegalArgumentException("git.clone needs url")
-            val dir = args["dir"] ?: java.io.File(context.filesDir, "repos").absolutePath
-            "git clone --depth 1 '$url' '$dir'"
+            val url = TermuxJobPolicy.gitHttpsUrl(args["url"] ?: throw IllegalArgumentException("url required"))
+            val dir = TermuxJobPolicy.filesystemPath(
+                args["dir"] ?: java.io.File(context.filesDir, "repos").absolutePath
+            )
+            "git clone --depth 1 -- " + TermuxJobPolicy.quote(url) + " " + TermuxJobPolicy.quote(dir)
         }
         jobRegistry["ssh.connect"] = { args ->
-            val host = args["host"] ?: throw IllegalArgumentException("ssh.connect needs host")
-            val user = args["user"] ?: "root"
-            val port = args["port"] ?: "22"
-            "ssh -o StrictHostKeyChecking=accept-new -p $port $user@$host"
+            val host = TermuxJobPolicy.host(args["host"] ?: throw IllegalArgumentException("host required"))
+            val user = TermuxJobPolicy.user(args["user"] ?: "root")
+            val port = TermuxJobPolicy.port(args["port"] ?: "22")
+            "ssh -o StrictHostKeyChecking=accept-new -p " + port + " -- " +
+                TermuxJobPolicy.quote(user + "@" + host)
         }
-        jobRegistry["python.run"] = { args ->
-            val code = args["code"] ?: ""
-            "python3 -c '${code.replace("'", "'\\''")}'"
-        }
+        // python.run intentionally disabled: it is arbitrary code execution,
+        // not a safe default command for model-generated or automation inputs.
         jobRegistry["network.ping"] = { args ->
-            val host = args["host"] ?: throw IllegalArgumentException("network.ping needs host")
-            "ping -c 4 '$host'"
+            val host = TermuxJobPolicy.host(args["host"] ?: throw IllegalArgumentException("host required"))
+            "ping -c 4 " + TermuxJobPolicy.quote(host)
         }
         jobRegistry["file.hash"] = { args ->
-            val path = args["path"] ?: throw IllegalArgumentException("file.hash needs path")
-            "sha256sum '$path'"
+            val path = TermuxJobPolicy.filesystemPath(args["path"] ?: throw IllegalArgumentException("path required"))
+            "sha256sum -- " + TermuxJobPolicy.quote(path)
         }
         jobRegistry["repo.inspect"] = { args ->
-            val path = args["path"] ?: "."
-            "cd '$path' && ls -la && (git log --oneline -5 2>/dev/null || true)"
+            val path = TermuxJobPolicy.filesystemPath(args["path"] ?: ".")
+            "cd -- " + TermuxJobPolicy.quote(path) +
+                " && ls -la && (git log --oneline -5 2>/dev/null || true)"
         }
     }
 
