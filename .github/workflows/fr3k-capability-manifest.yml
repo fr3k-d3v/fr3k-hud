@@ -1,0 +1,23 @@
+name: FR3K Capability Manifest
+
+on:
+  pull_request:
+    paths:
+      - ".fr3k/flagship-status.json"
+      - ".fr3k/**"
+      - ".github/workflows/fr3k-capability-manifest.yml"
+  push:
+    paths:
+      - ".fr3k/flagship-status.json"
+      - ".fr3k/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    uses: fr3kchy/fr3k.dev/.github/workflows/fr3k-capability-contract.yml@e9b03af46f4688bec1de752c12f247632e63baab
+    with:
+      project-id: hud
+      capability-ids: '["floating-hud-and-command-palette","hermes-and-device-registry","progressive-privilege","integration-and-permission-panel","screenshot-termux-jobs-gps-and-mesh","voice-studio-e01-e12-integration"]'
