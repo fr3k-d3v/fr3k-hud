@@ -2,14 +2,7 @@ name: FR3K Capability Manifest
 
 on:
   pull_request:
-    paths:
-      - ".fr3k/flagship-status.json"
-      - ".fr3k/**"
-      - ".github/workflows/fr3k-capability-manifest.yml"
   push:
-    paths:
-      - ".fr3k/flagship-status.json"
-      - ".fr3k/**"
   workflow_dispatch:
 
 permissions:
