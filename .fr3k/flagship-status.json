@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "projectId": "hud",
+  "updatedAt": "2026-11-12T12:20:06Z",
+  "capabilities": [
+    {
+      "id": "floating-hud-and-command-palette",
+      "state": "source-reported",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/ui/palette/CommandPaletteActivity.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/hud/HudOverlayService.kt",
+          "note": "Implementation source or interface for this capability."
+        }
+      ]
+    },
+    {
+      "id": "hermes-and-device-registry",
+      "state": "source-reported",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "core/src/main/java/com/mcpintelligence/fr3k/core/DeviceRegistry.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "core/src/main/java/com/mcpintelligence/fr3k/integrations/hermes/HermesPlugin.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "documentation",
+          "ref": "docs/DEVICE_PAIRING.md",
+          "note": "Design, operating or acceptance documentation for this capability."
+        }
+      ]
+    },
+    {
+      "id": "progressive-privilege",
+      "state": "implemented",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/permissions/PermissionRegistry.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "documentation",
+          "ref": "docs/SECURITY.md",
+          "note": "Design, operating or acceptance documentation for this capability."
+        }
+      ]
+    },
+    {
+      "id": "integration-and-permission-panel",
+      "state": "source-reported",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/ui/integrations/IntegrationsActivity.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/integrations/shizuku/ShizukuAdapter.kt",
+          "note": "Implementation source or interface for this capability."
+        }
+      ]
+    },
+    {
+      "id": "screenshot-termux-jobs-gps-and-mesh",
+      "state": "in-development",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/ui/screenshot/ScreenshotActivity.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/integrations/termux/TermuxBridge.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/location/LocationService.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/mesh/MeshService.kt",
+          "note": "Implementation source or interface for this capability."
+        }
+      ]
+    },
+    {
+      "id": "voice-studio-e01-e12-integration",
+      "state": "in-development",
+      "evidence": [
+        {
+          "type": "source",
+          "ref": "core/src/main/java/com/mcpintelligence/fr3k/core/VoiceIntentPlanner.kt",
+          "note": "Implementation source or interface for this capability."
+        },
+        {
+          "type": "source",
+          "ref": "app/src/main/java/com/mcpintelligence/fr3k/hud/overlays/TtsPreference.kt",
+          "note": "Implementation source or interface for this capability."
+        }
+      ]
+    }
+  ]
+}
