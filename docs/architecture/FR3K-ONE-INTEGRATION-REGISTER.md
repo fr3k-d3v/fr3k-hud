@@ -5,7 +5,7 @@ Status vocabulary: VERIFIED / OBSERVED / PARTIAL / PLANNED / UNKNOWN / BLOCKED.
 | System | Intended responsibility | Integration decision | Current evidence / status | Next verification |
 |---|---|---|---|---|
 | FR3K HUD | Android operator shell | Primary UI host | Repo exists; current build/runtime not established in this pass — UNKNOWN | Inspect repo tree, build, install and device test |
-| FR3K Overlay Full | Floating creature media + persona | Preserve as isolated module | Nov 7 APK located on Omarchy; exact source/signer/hash not yet verified — PARTIAL | Hash, aapt metadata, signer, source provenance, playback tests |
+| FR3K Overlay Full | Floating creature media + persona | Preserve as isolated module | Nov 7 APK located on Omarchy; SHA-256 verified as ec1d582fcffb046f93b132a9a42bdb75f66df34ccb4fdf06ad28fd1d2e44857c; package/signer/source commit still UNKNOWN — PARTIAL | Hash, aapt metadata, signer, source provenance, playback tests |
 | CORTEX | Discord command ingress | Adapter to shared Job API | Repo exists; full deployed feature state not established — UNKNOWN | Inspect code, service, Discord scopes, job routing |
 | Phone Control | Android interaction adapter | Capability-scoped device module | Existing device-control stack referenced; current permission/runtime state not established — UNKNOWN | Inventory enrolled phones, permission and action evidence |
 | Fleet MCP | Remote execution + device registry | Sole remote execution authority | Connected Fleet tools available; prior inventory showed 9 devices, 3 online at observation time — OBSERVED | Fresh inventory, health, capability and approval-path tests |
