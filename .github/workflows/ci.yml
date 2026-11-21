@@ -1,4 +1,4 @@
-name: HUD JVM unit tests
+name: HUD protocol JVM unit tests
 
 on:
   push:
@@ -21,5 +21,5 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
-      - name: Run JVM unit tests
-        run: ./gradlew --no-daemon -Dorg.gradle.java.home="$JAVA_HOME" testDebugUnitTest
+      - name: Run protocol JVM unit tests
+        run: ./gradlew --no-daemon -Dorg.gradle.java.home="$JAVA_HOME" :protocol:testDebugUnitTest
