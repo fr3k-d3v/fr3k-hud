@@ -1,0 +1,25 @@
+name: HUD JVM unit tests
+
+on:
+  push:
+    branches: ['feature/**', master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+      - name: Run JVM unit tests
+        run: ./gradlew --no-daemon -Dorg.gradle.java.home="$JAVA_HOME" testDebugUnitTest
